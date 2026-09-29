@@ -73,7 +73,7 @@ st.markdown(
     """
     <div class="weather-header">
         <h1>🌤️ La Météo de Salma</h1>
-        <p>Station Intelligente de Prédiction Météorologique par Machine Learning</p>
+        <p>Prédiction Météorologique par Machine Learning</p>
     </div>
 """,
     unsafe_allow_html=True,
