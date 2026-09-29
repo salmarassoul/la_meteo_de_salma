@@ -21,47 +21,69 @@ st.markdown(
     }
     .weather-header {
         background: linear-gradient(90deg, #1e3c72 0%, #2a5298 100%);
-        padding: 25px;
-        border-radius: 18px;
+        padding: 20px;
+        border-radius: 15px;
         color: white;
         text-align: center;
-        box-shadow: 0px 8px 16px rgba(0,0,0,0.15);
-        margin-bottom: 25px;
+        box-shadow: 0px 6px 12px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
     }
     .weather-header h1 {
         color: white !important;
-        font-size: 2.3rem;
+        font-size: 2rem;
         font-weight: 700;
         margin-bottom: 5px;
     }
     .metric-card {
         background-color: rgba(255, 255, 255, 0.85);
         backdrop-filter: blur(10px);
-        border-radius: 15px;
-        padding: 20px;
+        border-radius: 12px;
+        padding: 12px;
         border: 1px solid rgba(255, 255, 255, 0.4);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
         text-align: center;
-        margin-bottom: 15px;
+        margin-bottom: 10px;
     }
-    .metric-card h4 { color: #555; font-size: 0.95rem; margin-bottom: 8px; font-weight: 600; }
-    .metric-value { font-size: 1.8rem; font-weight: bold; color: #1e3c72; }
+    .metric-card h4 { color: #555; font-size: 0.85rem; margin-bottom: 4px; font-weight: 600; }
+    .metric-value { font-size: 1.4rem; font-weight: bold; color: #1e3c72; }
+
+    /* CARTES DE RÉSULTATS RÉDUITES ET COMPACTES */
     .result-card-rain {
         background: linear-gradient(135deg, #ff4e50 0%, #f9d423 100%);
-        color: white; padding: 25px; border-radius: 18px; text-align: center;
+        color: white; padding: 14px 18px; border-radius: 12px; text-align: center;
+        box-shadow: 0 4px 10px rgba(255, 78, 80, 0.15);
     }
     .result-card-dry {
         background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%);
-        color: white; padding: 25px; border-radius: 18px; text-align: center;
+        color: white; padding: 14px 18px; border-radius: 12px; text-align: center;
+        box-shadow: 0 4px 10px rgba(86, 171, 47, 0.15);
     }
     .result-card-amount {
         background: linear-gradient(135deg, #2193b0 0%, #6dd5ed 100%);
-        color: white; padding: 25px; border-radius: 18px; text-align: center;
+        color: white; padding: 14px 18px; border-radius: 12px; text-align: center;
+        box-shadow: 0 4px 10px rgba(33, 147, 176, 0.15);
     }
+
+    .result-title {
+        font-size: 1.05rem;
+        font-weight: 600;
+        margin-bottom: 2px;
+    }
+    .result-value {
+        font-size: 1.8rem;
+        font-weight: 800;
+        margin: 4px 0;
+    }
+    .result-desc {
+        font-size: 0.82rem;
+        opacity: 0.95;
+        margin: 0;
+    }
+
     .stButton>button {
         background: linear-gradient(90deg, #1e3c72 0%, #2a5298 100%);
-        color: white !important; border: none; border-radius: 12px;
-        padding: 12px 28px; font-size: 1.1rem; font-weight: 600; width: 100%;
+        color: white !important; border: none; border-radius: 10px;
+        padding: 10px 24px; font-size: 1rem; font-weight: 600; width: 100%;
     }
     </style>
 """,
@@ -95,7 +117,7 @@ except Exception as e:
     st.error(f"Erreur lors du chargement des fichiers de modèle : {e}")
     st.stop()
 
-st.sidebar.image("https://img.icons8.com/fluency/96/weather.png", width=70)
+st.sidebar.image("https://img.icons8.com/fluency/96/weather.png", width=60)
 st.sidebar.title("⚙️ Paramètres Météo")
 
 
@@ -182,17 +204,35 @@ if st.button("🚀 Obtenir le Bulletin de Salma pour Demain"):
     with col_res1:
         if pred_class == 1:
             st.markdown(
-                f'<div class="result-card-rain"><h3>🌧️ Risque de Pluie Élevé</h3><h1 style="font-size: 3rem; margin: 10px 0;">{proba_class*100:.1f}%</h1><p>Probabilité de précipitation demain</p></div>',
+                f"""
+                <div class="result-card-rain">
+                    <div class="result-title">🌧️ Risque de Pluie Élevé</div>
+                    <div class="result-value">{proba_class*100:.1f}%</div>
+                    <p class="result-desc">Probabilité de précipitation demain</p>
+                </div>
+                """,
                 unsafe_allow_html=True,
             )
         else:
             st.markdown(
-                f'<div class="result-card-dry"><h3>☀️ Temps Sec Prévu</h3><h1 style="font-size: 3rem; margin: 10px 0;">{(1-proba_class)*100:.1f}%</h1><p>Probabilité de temps ensoleillé/sec</p></div>',
+                f"""
+                <div class="result-card-dry">
+                    <div class="result-title">☀️ Temps Sec Prévu</div>
+                    <div class="result-value">{(1-proba_class)*100:.1f}%</div>
+                    <p class="result-desc">Probabilité de temps ensoleillé/sec</p>
+                </div>
+                """,
                 unsafe_allow_html=True,
             )
 
     with col_res2:
         st.markdown(
-            f'<div class="result-card-amount"><h3>📏 Hauteur de Pluie Estimée</h3><h1 style="font-size: 3rem; margin: 10px 0;">{pred_amount:.2f} mm</h1><p>Volume moyen prévu par le modèle de Régression</p></div>',
+            f"""
+            <div class="result-card-amount">
+                <div class="result-title">📏 Hauteur de Pluie Estimée</div>
+                <div class="result-value">{pred_amount:.2f} mm</div>
+                <p class="result-desc">Volume moyen prévu par le modèle</p>
+            </div>
+            """,
             unsafe_allow_html=True,
         )
