@@ -5,7 +5,7 @@ import streamlit as st
 
 # Configuration de la page
 st.set_page_config(
-    page_title="La Météo de Salma",
+    page_title="La Météo",
     page_icon="🌤️",
     layout="wide",
     initial_sidebar_state="expanded",
